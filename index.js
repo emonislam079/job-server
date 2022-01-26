@@ -31,10 +31,23 @@ async function run() {
        // GET Blogs API
         app.get('/blogs', async(req, res) => {
             const cursor = blogsCollection.find({});
-            const Blogs = await cursor.toArray();
-            res.send(Blogs);
-        })
+            const page = req.query.page;
+            const size = parseInt(req.query.size);
+            let Blogs;
+            const count = await cursor.count();
 
+            if (page) {
+                Blogs = await cursor.skip(page * size).limit(size).toArray();
+            }
+            else {
+                Blogs= await cursor.toArray();
+            }
+
+            res.send({
+                count,
+                Blogs
+            });
+        });
 
         // GET SINGLE Blogs API
         app.get('/blogs/:id', async(req, res) => {
