@@ -25,6 +25,7 @@ async function run() {
         await client.connect();
         const database = client.db('travelers-Blog');
         const blogsCollection = database.collection('blogs');
+        const usersCollection = database.collection('users');
         
 
 
@@ -63,6 +64,24 @@ async function run() {
             const product = req.body;
             const result = await blogsCollection.insertOne(product);
             res.json(product);
+        })
+
+        // POST USER API
+        app.post('/users', async(req, res) => {
+            const user = req.body;
+            const result = await usersCollection.insertOne(user);
+            res.json(result);
+            
+        })
+
+        // upsert USER DATA
+        app.put('/users', async(req, res) => {
+            const user = req.body;
+            const filter = {email: user.email};
+            const options = {upsert: true};
+            const updateDoc = {$set: user};
+            const result = await usersCollection.updateOne(filter, updateDoc, options);
+            res.json(result);
         })
        
     }
