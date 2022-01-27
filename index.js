@@ -124,6 +124,16 @@ async function run() {
         })
 
 
+        // Delete Api
+
+        app.delete('/blogs/:id', async (req, res)=>{
+            const id = req.params.id;
+            const query = {_id: ObjectId(id)};
+            const result = await blogsCollection.deleteOne(query);
+            res.json(result);
+        })
+
+
 
     }
     finally{
