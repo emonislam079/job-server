@@ -116,6 +116,15 @@ async function run() {
             res.json(product);
         })
        
+            // GET userBlogs API
+        app.get('/usersblogs', async(req, res) => {
+            const cursor = usersblogCollection.find({});
+            const blogs = await cursor.toArray();
+            res.send(blogs);
+        })
+
+
+
     }
     finally{
         // await client.close();
