@@ -26,6 +26,7 @@ async function run() {
         const database = client.db('travelers-Blog');
         const blogsCollection = database.collection('blogs');
         const usersCollection = database.collection('users');
+        const usersblogCollection = database.collection('usersblog');
         
 
 
@@ -105,6 +106,14 @@ async function run() {
                 isAdmin = true;
             }
             res.json({admin: isAdmin})
+        })
+
+
+        // POST usersBlogs API
+        app.post('/usersblogs', async(req, res) => {
+            const product = req.body;
+            const result = await usersblogCollection.insertOne(product);
+            res.json(product);
         })
        
     }
